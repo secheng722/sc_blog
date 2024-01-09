@@ -1,4 +1,3 @@
-use dotenv::dotenv;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -19,3 +18,4 @@ pub struct Config {
 // impl Config {
 // pub fn from_env() -> Result<Self, anyhow::Error> {}
 // }
+
