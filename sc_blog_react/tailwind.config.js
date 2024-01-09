@@ -1,11 +1,12 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "src/**/*.tsx"
-  ],
+module.exports = {
+  content: ['./index.html', './src/**/*.{tsx,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        sm: "url('./assets/img/bg-sm.png')",
+        md: "url('./assets/img/bg-md.png')",
+      },
+    },
   },
-  plugins: [],
-}
-
+  plugins: [require('daisyui')],
+};
