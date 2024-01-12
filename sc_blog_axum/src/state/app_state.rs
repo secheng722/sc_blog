@@ -1,6 +1,6 @@
-use std::{borrow::Borrow, sync::Arc};
+use std::sync::Arc;
 
-use sqlx::{Pool, Postgres, any};
+use sqlx::{Pool, Postgres};
 
 #[derive(Clone)]
 pub struct AppState {

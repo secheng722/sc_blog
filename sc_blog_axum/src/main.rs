@@ -1,3 +1,5 @@
+pub mod article;
+
 use std::sync::Arc;
 
 use axum::{Extension, Router};
@@ -13,10 +15,11 @@ async fn main() {
         .expect("Failed to connect to Postgres.");
     let web_addr = "localhost:9527";
     let app = Router::new()
-    .nest("/user",user::init())
-    .layer(Extension(Arc::new(AppState {
-        pool: Arc::new(pgpool),
-    })));
+        .nest("/user", user::init())
+        .nest("/blog", article::init())
+        .layer(Extension(Arc::new(AppState {
+            pool: Arc::new(pgpool),
+        })));
     let listener = TcpListener::bind(web_addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
