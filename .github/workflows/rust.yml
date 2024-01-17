@@ -3,8 +3,12 @@ name: Rust
 on:
   push:
     branches: [ "main" ]
+    paths:
+        - 'sc_blog_axum/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+        - 'sc_blog_axum/**'
 
 env:
   CARGO_TERM_COLOR: always
