@@ -10,7 +10,7 @@ pub async fn get_articles(
 ) -> Json<ApiResponse<Vec<Article>>> {
     println!("get articles");
     let conn = state.get_conn().await;
-    let articles = sqlx::query_as("select * from plant_camera.t_article")
+    let articles = sqlx::query_as("select * from sc_blog.t_article")
         .fetch_all(conn.as_ref())
         .await
         .unwrap();
@@ -23,7 +23,7 @@ pub async fn add_article(
 ) -> Json<ApiResponse<()>> {
     println!("article: {:?}", article);
     let conn = state.get_conn().await;
-    sqlx::query("INSERT INTO plant_camera.t_article (title,content) VALUES ($1,$2)")
+    sqlx::query("INSERT INTO sc_blog.t_article (title,content) VALUES ($1,$2)")
         .bind(article.title())
         .bind(article.content())
         .execute(conn.as_ref())

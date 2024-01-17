@@ -3,7 +3,7 @@ pub mod article;
 use std::sync::Arc;
 
 use axum::{Extension, Router};
-use sc_blog_axum::{state::app_state::AppState, user};
+use sc_blog_axum::{content, posts, state::app_state::AppState, user};
 use sqlx::postgres::PgPoolOptions;
 use tokio::net::TcpListener;
 #[tokio::main]
@@ -17,6 +17,8 @@ async fn main() {
     let app = Router::new()
         .nest("/user", user::init())
         .nest("/blog", article::init())
+        .nest("/post",posts::init())
+        .nest("/content",content::init())
         .layer(Extension(Arc::new(AppState {
             pool: Arc::new(pgpool),
         })));
