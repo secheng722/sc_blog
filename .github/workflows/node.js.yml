@@ -6,12 +6,8 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
-    paths:
-        - 'sc_blog_next/**'
   pull_request:
     branches: [ "main" ]
-    paths:
-        - 'sc_blog_next/**'
 
 jobs:
   build:
@@ -29,12 +25,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: ./sc_blog_next/package-lock.json
-    - run: npm ci
+        cache: 'yarn'
+        cache-dependency-path: ./sc_blog_next/yarn.lock
+    - run: yarn install
       working-directory: sc_blog_next
-    - run: npm run build --if-present
+    - run: yarn build
       working-directory: sc_blog_next
-    - run: npm test
+    - run: yarn test
       working-directory: sc_blog_next
-
