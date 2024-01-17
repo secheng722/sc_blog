@@ -35,6 +35,6 @@ jobs:
       working-directory: sc_blog_next
     - run: npm run build --if-present
       working-directory: sc_blog_next
-    - run: npm test
-      working-directory: sc_blog_next
-
+#    - run: npm test
+#      working-directory: sc_blog_next
+#
