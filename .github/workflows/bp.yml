@@ -15,13 +15,6 @@ on:
       - 'sc_blog_axum/**'
 
 jobs:
-  setup-git-identity:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Git identity
-        run: |
-          git config --global user.email "826216325@qq.com"
-          git config --global user.name "secheng722"
   build_and_publish_node:
     runs-on: ubuntu-latest
     strategy:
@@ -51,7 +44,7 @@ jobs:
           files: sc_blog_next/dist/*
           tag_name: v${{ github.run_number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
 
   build_and_publish_rust:
     runs-on: ubuntu-latest
@@ -74,4 +67,4 @@ jobs:
           files: sc_blog_axum/target/debug/*
           tag_name: v${{ github.run_number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
