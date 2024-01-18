@@ -2,7 +2,7 @@
 export default function Blog(context: any) {
     return (
         <div>
-            <p>hello world test b</p>
+            <p>hello world test baa</p>
         </div>
     )
 }
