@@ -1,0 +1,70 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - 'sc_blog_next/**'
+      - 'sc_blog_axum/**'
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - 'sc_blog_next/**'
+      - 'sc_blog_axum/**'
+
+jobs:
+  build_and_publish_node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout Node.js project
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./sc_blog_next/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: sc_blog_next
+      - name: Build Node.js project
+        run: npm run build --if-present
+        working-directory: sc_blog_next
+      - name: Tag Node.js release
+        run: git tag -a v${{ github.run_number }} -m "Release Node.js"
+        working-directory: sc_blog_next
+      - name: Publish Release for Node.js
+        uses: softprops/action-gh-release@v1
+        with:
+          files: sc_blog_next/dist/*
+          tag_name: v${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build_and_publish_rust:
+    runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Checkout Rust project
+        uses: actions/checkout@v3
+      - name: Build and Test Rust project
+        working-directory: sc_blog_axum
+        run: |
+          cargo build --verbose
+          cargo test --verbose
+      - name: Tag Rust release
+        run: git tag -a v${{ github.run_number }} -m "Release Rust"
+        working-directory: sc_blog_axum
+      - name: Publish Release for Rust
+        uses: softprops/action-gh-release@v1
+        with:
+          files: sc_blog_axum/target/debug/*
+          tag_name: v${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
