@@ -38,13 +38,15 @@ jobs:
       - name: Tag Node.js release
         run: git tag -a v${{ github.run_number }} -m "Release Node.js"
         working-directory: sc_blog_next
-      - name: Publish Release for Node.js
+      - name: Publish Release Node
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: sc_blog_next/dist/*
-          tag_name: v${{ github.run_number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+          # note you'll typically need to create a personal access token
+          # with permissions to create releases in the other repo
+          token: ${{ secrets.G_TOKEN }}
 
   build_and_publish_rust:
     runs-on: ubuntu-latest
@@ -66,5 +68,3 @@ jobs:
         with:
           files: sc_blog_axum/target/debug/*
           tag_name: v${{ github.run_number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
