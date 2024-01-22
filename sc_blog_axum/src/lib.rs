@@ -6,3 +6,5 @@ pub mod state;
 pub mod user;
 pub mod utils;
 pub mod content;
+
+pub mod article;

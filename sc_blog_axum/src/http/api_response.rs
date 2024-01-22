@@ -4,12 +4,12 @@ use serde::Serialize;
 #[derive(Serialize)]
 //要求范型T实现Serialize trait
 pub struct ApiResponse<T: Serialize> {
-    pub code: i32,
-    pub msg: String,
+    code: i32,
+    msg: String,
     //当为None时，不序列化该字段
     //如果是vec<T>
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub data: Option<T>,
+    data: Option<T>,
 }
 
 impl<T: Serialize> ApiResponse<T> {

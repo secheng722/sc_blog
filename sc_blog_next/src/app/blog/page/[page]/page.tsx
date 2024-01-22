@@ -1,32 +1,36 @@
 'use client'
 import ListLayOut from "@/app/components/list_layout_tags";
-import {post} from "@/app/main";
 import {useEffect, useState} from "react";
+import {post} from "@/app/main";
 
-const POSTS_PER_PAGE = 5;
+const POSTS_PER_PAGE = 5
 
+export interface PaginationProps {
+    totalPages: number
+    currentPage: number
+}
 
-export default function Blog() {
-
-    const [posts, setPosts] = useState<post[]>([]);
-
-    const [pageNumber, setPageNumber] = useState(1);
-
-    const [totalPages, setTotalPages] = useState(1);
+export default function Page({ params }: { params: { page: string } }) {
 
     const title:string = "Latest";
 
-    const pagination = {
-        currentPage: pageNumber,
-        totalPages: Math.ceil(totalPages / POSTS_PER_PAGE),
-    }
+
+    const [posts, setPosts] = useState<post[]>([]);
+
+    const [pagination, setPagination] = useState<PaginationProps>()
+
+
 
     useEffect(() => {
+        const pageNumber = parseInt(params.page as string)
         const fetchTotals = async () => {
             const res = await fetch("/api/post/get_ports_all_count");
             const data = await res.json();
             if (data.code === 200) {
-                setTotalPages(data.data);
+                setPagination({
+                    currentPage: pageNumber,
+                    totalPages: Math.ceil(data.data / POSTS_PER_PAGE),
+                })
             }
         }
         const fetchPosts = async () => {
@@ -37,7 +41,7 @@ export default function Blog() {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            page: 1,
+                            page: pageNumber,
                             page_size: POSTS_PER_PAGE,
                             tag: "",
                         }),
@@ -58,6 +62,6 @@ export default function Blog() {
             title={title}
             displayPosts={posts}
             pagination={pagination}
-        ></ListLayOut>
+            ></ListLayOut>
     )
 }

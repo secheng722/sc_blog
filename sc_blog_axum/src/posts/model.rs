@@ -66,4 +66,36 @@ impl Post {
     }
 }
 
+#[derive(Debug, Deserialize)]
+pub struct PaginationRequest {
+    page: i32,
+    page_size: i32,
+    tag: Option<String>,
+}
+
+impl PaginationRequest {
+    pub fn new(page: i32, page_size: i32, tag: Option<String>) -> Self {
+        Self {
+            page,
+            page_size,
+            tag,
+        }
+    }
+
+    pub fn page(&self) -> i32 {
+        self.page
+    }
+
+    pub fn page_size(&self) -> i32 {
+        self.page_size
+    }
+
+    pub fn tag(&self) -> &str {
+        if let Some(tag) = &self.tag {
+            tag
+        } else {
+            ""
+        }
+    }
+}
 

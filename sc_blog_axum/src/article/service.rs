@@ -1,7 +1,8 @@
 use std::sync::Arc;
 
 use axum::{Extension, Json};
-use sc_blog_axum::{http::api_response::ApiResponse, state::app_state::AppState};
+use crate::http::api_response::ApiResponse;
+use crate::state::app_state::AppState;
 
 use super::model::Article;
 

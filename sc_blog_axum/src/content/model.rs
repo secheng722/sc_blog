@@ -61,3 +61,16 @@ impl PostContentQuery {
         &self.slug
     }
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
+pub struct Author {
+    name: String,
+    avatar: String,
+    slug: String,
+}
+
+impl Author {
+    pub fn new(name: String, avatar: String, slug: String) -> Self {
+        Self { name, avatar, slug }
+    }
+}
