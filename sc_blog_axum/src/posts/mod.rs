@@ -3,7 +3,7 @@ use axum::{
     routing::{get, post},
 };
 
-use crate::posts::service::{get_ports, get_ports_all_count, get_ports_pagination};
+use crate::posts::service::{get_ports_all_count, get_ports_pagination};
 
 pub mod model;
 pub mod service;

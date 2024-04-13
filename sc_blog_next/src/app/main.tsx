@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Tag from "./components/tag";
 
 export interface post {
@@ -27,30 +27,30 @@ export default function Main() {
                 setTotal(data.data);
             }
         }
-            const fetchPosts = async () => {
-                    const res = await fetch("/api/post/get_list_pagination",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                page: 1,
-                                page_size: MAX_POSTS,
-                                tag: "",
-                            }),
-                        }
-                    );
-                    const data = await res.json();
-                    if (data.code === 200) {
-                        setPosts(data.data.slice(0, MAX_POSTS));
-                    }
+        const fetchPosts = async () => {
+            const res = await fetch("/api/post/get_list_pagination",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        page: 1,
+                        page_size: MAX_POSTS,
+                        tag: "",
+                    }),
                 }
+            );
+            const data = await res.json();
+            if (data.code === 200) {
+                setPosts(data.data.slice(0, MAX_POSTS));
+            }
+        }
             ;
-            fetchTotals().then(r => fetchPosts());
-        }, []
+        fetchTotals().then(r => fetchPosts());
+    }, []
     )
-    ;
+        ;
     return (
         <>
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -65,7 +65,7 @@ export default function Main() {
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                     {!posts.length && "No posts found."}
                     {posts.map((post) => {
-                        const {slug, title, date, summary, tags} = post;
+                        const { slug, title, date, summary, tags } = post;
                         return (
                             <li key={slug} className="py-12">
                                 <article>
@@ -90,7 +90,7 @@ export default function Main() {
                                                     </h2>
                                                     <div className="flex flex-wrap">
                                                         {tags.map((tag) => (
-                                                            <Tag key={tag} text={tag}/>
+                                                            <Tag key={tag} text={tag} />
                                                         ))}
                                                     </div>
                                                 </div>

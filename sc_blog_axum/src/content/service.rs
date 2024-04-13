@@ -7,7 +7,7 @@ use crate::content::model::{PostContent, PostContentQuery};
 use crate::http::api_response::ApiResponse;
 use crate::state::app_state::AppState;
 
-use super::model::Author;
+
 
 pub async fn get_post_body(
     Extension(state): Extension<Arc<AppState>>,

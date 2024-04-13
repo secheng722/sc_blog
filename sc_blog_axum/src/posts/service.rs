@@ -26,14 +26,14 @@ pub async fn get_ports_pagination(
 ) -> Json<ApiResponse<Vec<Post>>> {
     println!("get all posts pagination");
     let conn = state.get_conn().await;
-    return if let Some(Json(paginationRequest)) = pagination_request {
-        println!("pagination request: {:?}", paginationRequest);
+    return if let Some(Json(pagination_request)) = pagination_request {
+        println!("pagination request: {:?}", pagination_request);
         let posts = sqlx::query_as::<_, Post>(
             "select slug,title,date,summary,tags from sc_blog.t_post where ($1 = '' or $1 is null or $1 = any(tags)) limit $2 offset $3",
         )
-            .bind(paginationRequest.tag())
-            .bind(paginationRequest.page_size())
-            .bind((paginationRequest.page() - 1) * paginationRequest.page_size())
+            .bind(pagination_request.tag())
+            .bind(pagination_request.page_size())
+            .bind((pagination_request.page() - 1) * pagination_request.page_size())
             .fetch_all(conn.as_ref())
             .await
             .unwrap();
